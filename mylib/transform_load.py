@@ -43,7 +43,7 @@ def load(dataset="data/baskin_icecream.csv"):
             )
             # insert
             
-            for _, row in df.iterrows():
+            for _, row in baskin_data.iterrows():
                 convert = (_,) + tuple(row)
                 c.execute(f"INSERT INTO BaskinRobbinsDB VALUES {convert}")
         c.close()
