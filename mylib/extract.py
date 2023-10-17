@@ -6,7 +6,6 @@ tend to work well
 """
 import os
 import requests
-import pandas as pd
 
 def extract(
     url="""
