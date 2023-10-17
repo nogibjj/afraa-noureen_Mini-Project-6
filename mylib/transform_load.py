@@ -1,50 +1,51 @@
 """
-Transforms and Loads data into the local SQLite3 database
+Transforms and Loads data into Azure Databricks
 """
-import sqlite3
-import csv
+import os
+from databricks import sql
+import pandas as pd
+from dotenv import load_dotenv
 
 
 # load the csv file and insert into a new sqlite3 database
 def load(dataset="data/baskin_icecream.csv"):
-    """Transforms and Loads data into the local SQLite3 database"""
-    baskin_data = csv.reader(open(dataset, newline=""), delimiter=",")
-    # skips the header of csv
-    next(baskin_data)
-    conn = sqlite3.connect("baskin_icecream.db")
-    c = conn.cursor()
-    c.execute("DROP TABLE IF EXISTS baskin_icecream")
-    c.execute(
-        """
-        CREATE TABLE baskin_icecream (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            Flavour TEXT,
-            Calories INTEGER,
-            Total_Fat_g REAL,
-            Trans_Fat_g REAL,
-            Carbohydrates_g INTEGER,
-            Sugars_g INTEGER,
-            Protein_g REAL,
-            Size TEXT
-        )
-    """
-    )
-    # insert
-    c.executemany(
-        """
-        INSERT INTO baskin_icecream (
-            Flavour, 
-            Calories, 
-            Total_Fat_g, 
-            Trans_Fat_g, 
-            Carbohydrates_g, 
-            Sugars_g, 
-            Protein_g, 
-            Size
-            ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-        baskin_data,
-    )
-    conn.commit()
-    conn.close()
-    return "baskin_icecream.db"
+    """Transforms and Loads data into the local databricks database"""
+    baskin_data = pd.read_csv(dataset, delimiter=",", skiprows=1)
+    load_dotenv()
+    server_h = os.getenv("SERVER_HOSTNAME")
+    access_token = os.getenv("ACCESS_TOKEN")
+    http_path = os.getenv("HTTP_PATH")
+    with sql.connect(
+        server_hostname=server_h,
+        http_path=http_path,
+        access_token=access_token,
+    ) as connection:
+        c = connection.cursor()
+
+        c.execute("SHOW TABLES FROM default LIKE 'baskin*'")
+        result = c.fetchall()
+        
+        if not result:
+            c.execute(
+                """
+                CREATE TABLE IF NOT EXISTS BaskinRobbinsDB (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Flavour TEXT,
+                Calories INTEGER,
+                Total_Fat_g REAL,
+                Trans_Fat_g REAL,
+                Carbohydrates_g INTEGER,
+                Sugars_g INTEGER,
+                Protein_g REAL,
+                Size TEXT
+                )
+                """
+            )
+            # insert
+            
+            for _, row in df.iterrows():
+                convert = (_,) + tuple(row)
+                c.execute(f"INSERT INTO BaskinRobbinsDB VALUES {convert}")
+        c.close()
+
+    return "success"
