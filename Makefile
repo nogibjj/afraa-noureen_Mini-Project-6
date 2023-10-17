@@ -9,9 +9,6 @@ format:
 	black *.py 
 
 lint:
-	#disable comment to test speed
-	#pylint --disable=R,C --ignore-patterns=test_.*?py *.py mylib/*.py
-	#ruff linting is 10-100X faster than pylint
 	ruff check *.py mylib/*.py
 
 container-lint:
@@ -46,4 +43,4 @@ transform_load:
 	python main.py transform_load
 
 query:
-	python main.py run_query "SELECT * FROM baskin_icecream WHERE Flavour='Green Tea';"
+	python main.py run_query "SELECT Flavour, Sugars_g, Size FROM BaskinRobbinsDB WHERE Size = 'Reg114g' ORDER BY Sugars_g DESC LIMIT 5;"

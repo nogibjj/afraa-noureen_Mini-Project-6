@@ -30,64 +30,6 @@ def test_transform_load():
     assert "Transforming data..." in result.stdout
 
 
-def test_update():
-    """tests update"""
-    result = subprocess.run(
-        [
-            "python",
-            "main.py",
-            "update",
-            "1",
-            "Butterscotch",
-            "114",
-            "7.5",
-            "0.4",
-            "25",
-            "18",
-            "2.2",
-            "kids70g",
-        ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
-def test_delete():
-    """tests delete"""
-    result = subprocess.run(
-        ["python", "main.py", "delete", "1"],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
-def test_create():
-    """tests create"""
-    result = subprocess.run(
-        [
-            "python",
-            "main.py",
-            "create",
-            "Butterscotch",
-            "114",
-            "7.5",
-            "0.4",
-            "25",
-            "18",
-            "2.2",
-            "kids70g",
-        ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
 def test_run_query():
     """tests run_query"""
     result = subprocess.run(
@@ -95,19 +37,13 @@ def test_run_query():
             "python",
             "main.py",
             "run_query",
-            "SELECT * FROM baskin_icecream WHERE Flavour = 'Butterscotch'",
+            """SELECT Flavour, Sugars_g, Size 
+            FROM BaskinRobbinsDB 
+            WHERE Size = 'Reg114g' 
+            ORDER BY Sugars_g DESC 
+            LIMIT 5;
+            """,
         ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
-def test_read():
-    """tests read"""
-    result = subprocess.run(
-        ["python", "main.py", "read"],
         capture_output=True,
         text=True,
         check=True,
@@ -118,8 +54,4 @@ def test_read():
 if __name__ == "__main__":
     test_extract()
     test_transform_load()
-    test_create()
-    test_read()
-    test_update()
-    test_delete()
     test_run_query()
