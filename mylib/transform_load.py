@@ -28,7 +28,7 @@ def load(dataset="data/baskin_icecream.csv"):
         if not result:
             c.execute(
                 """
-                CREATE TABLE IF NOT EXISTS BaskinRobbinsDB (
+                CREATE TABLE IF NOT EXISTS baskin_icecream (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Flavour TEXT,
                 Calories INTEGER,
@@ -45,7 +45,7 @@ def load(dataset="data/baskin_icecream.csv"):
             
             for _, row in baskin_data.iterrows():
                 convert = (_,) + tuple(row)
-                c.execute(f"INSERT INTO BaskinRobbinsDB VALUES {convert}")
+                c.execute(f"INSERT INTO baskin_icecream VALUES {convert}")
         c.close()
 
     return "success"

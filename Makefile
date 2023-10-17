@@ -43,4 +43,4 @@ transform_load:
 	python main.py transform_load
 
 query:
-	python main.py run_query "SELECT Flavour, Sugars_g, Size FROM BaskinRobbinsDB WHERE Size = 'Reg114g' ORDER BY Sugars_g DESC LIMIT 5;"
+	python main.py run_query "SELECT Flavour, Sugars_g, Size FROM baskin_icecream WHERE Size = 'Reg114g' ORDER BY Sugars_g DESC LIMIT 5;"
