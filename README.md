@@ -1,5 +1,4 @@
-# IDS_706-Data_Engineering_Systems
-## Mini-Project 6 : Complex SQL Query for a MySQL Database
+# Complex SQL Query for a MySQL Database
 
 
 
@@ -7,7 +6,7 @@
 
 #### Purpose
 
-This project is for a data engineering course (Mini-Project 6). It involves using a Python script to interact with an SQL Database on Azure Databricks. The project also implements continuous integration through GitHub Actions to automate the setup of the environment, perform testing, code formatting, and code linting.
+This repo includes a Python script to interact with an SQL Database on Azure Databricks. The project also implements continuous integration through GitHub Actions to automate the setup of the environment, perform testing, code formatting, and code linting.
 
 ***
 
